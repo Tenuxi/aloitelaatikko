@@ -2,8 +2,9 @@
 {% block title %}Aloitelista{% endblock %}
 {% block body %}
    <h1>Aloitelistaus</h1>
+   <div id="divi">
    <table class="table table-hover">
-   <thead>
+   <thead class="thead-dark">
        <tr>
        <th>ID</th>
        <th>Aihe</th>
@@ -12,6 +13,7 @@
        <th>Etunimi</th>
        <th>Sukunimi</th>
        <th>Sähköposti</th>
+       <th>Napit</th>
        </tr>
    </thead>
    <tbody>
@@ -33,6 +35,7 @@
    {%  endfor %}
    </tbody>
 </table>
+</div>
 {% endblock %}
 {% block javascripts %}
    {{ parent() }}

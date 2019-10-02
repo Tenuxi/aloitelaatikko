@@ -1,0 +1,15 @@
+body{
+    text-align: center;
+    background-color: #131313;
+    color: #ffffff;
+}
+
+tr td {
+    color: #ffffff;
+}
+
+#divi {
+    width: 90%;
+    margin-left: 5%;
+    border: 1px solid #ffffff;
+}
