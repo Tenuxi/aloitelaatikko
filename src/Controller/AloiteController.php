@@ -11,24 +11,15 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 class AloiteController extends AbstractController{
 
     /**
-     * @Route("laatikko/aloitelaatikko")
+     * @Route("lopputyo/aloitetaatikko")
      */
-    public function aloitelaatikko(){
+    //Kontrollerit laitetaan tänne
+    public function Aloitelaatikko(){
         
-        $noppa = rand(1, 6);
-
-        //kutsutaan näkymää ja lähetetään sille dataa siltävät muuttujat
-        return $this->render('laatikko/aloitelaatikko.html.twig', [
-            'noppa' => $noppa
+        return $this->render('lopputyo/aloitelaatikko.html.twig', [
+            
         ]);
-    
-
-        
-
-
     }
-    
-
 
 }
 
