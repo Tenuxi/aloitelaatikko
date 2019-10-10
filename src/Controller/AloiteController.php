@@ -6,6 +6,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;   // twigiä varten
 use Symfony\Component\Routing\Annotation\Route;                     // reititystä varten
+
+
+
+
+
 class AloiteController extends AbstractController {
    /**
     * @Route("/lopputyo", name="aloite_lista")
@@ -18,87 +23,126 @@ class AloiteController extends AbstractController {
            'aloitteet'    => $aloitteet,
        ]);
    }
+
+
+
+
    /**
     * @Route("/lopputyo/uusi", name="aloite_uusi")
     */
-   public function uusi(Request $request){
-       // Luodaan aloite-olio
-       $aloite= new Aloite();
-       // Luodaan lomake
-       $form = $this->createForm(
-         AloiteFormType::class,
-         $aloite, [
-           'action'    => $this->generateUrl('aloite_uusi'),
-           'attr'      => ['class' => 'form-signin']
-         ]
-       );
-       // Käsitellään lomakkeelta tulleet tiedot ja talletetaan tietokantaan
-       $form->handleRequest($request);
-       if($form->isSubmitted()){
-         // Talletetaan lomaketiedot muuttujaan
-         $aloite = $form->getData();
-         // Talletetaan tietokantaan
-         $entityManager = $this->getDoctrine()->getManager();
-         $entityManager->persist($aloite);
-         $entityManager->flush();
-         // Kutsutaan index-kontrolleria
-         return $this->redirectToRoute('aloite_lista');
-       }
-       // Pyydetään näkymää näytämään lomake
-         return $this->render('lopputyo/uusi.html.twig', [
-           'form1' => $form->createView()
-         ]);
-     }
+    public function uusi(Request $request){
+      // Luodaan aloite-olio
+      $aloite= new Aloite();
+
+      // Luodaan lomake
+      $form = $this->createForm(
+        AloiteFormType::class,
+        $aloite, [
+          'action'    => $this->generateUrl('aloite_uusi'),
+          'attr'      => ['class' => 'form-signin']
+        ]
+      );
+
+      // Käsitellään lomakkeelta tulleet tiedot ja talletetaan tietokantaan
+      $form->handleRequest($request);
+      if($form->isSubmitted()){
+        // Talletetaan lomaketiedot muuttujaan
+        $aloite = $form->getData();
+
+        // Talletetaan tietokantaan
+        $entityManager = $this->getDoctrine()->getManager();
+        $entityManager->persist($aloite);
+        $entityManager->flush();
+
+        // Kutsutaan index-kontrolleria
+        return $this->redirectToRoute('aloite_lista');
+      }
+
+      // Pyydetään näkymää näytämään lomake
+        return $this->render('lopputyo/uusi.html.twig', [
+          'form1' => $form->createView()
+        ]);
+    }
+
+
+
+
+
      /**
       * @Route("/lopputyo/nayta/{id}", name="aloite_nayta")
       */
-     public function nayta($id){
-       $aloite = $this->getDoctrine()->getRepository(Aloite::class)->find($id);
-         return $this->render('lopputyo/nayta.html.twig', [
-           'aloite'  => $aloite,
-         ]);
-     }
+      public function nayta($id){
+        $aloite = $this->getDoctrine()->getRepository(Aloite::class)->find($id);
+  
+          return $this->render('lopputyo/nayta.html.twig', [
+            'aloite'  => $aloite,
+          ]);
+      }
+  
+
+
+
+
+
+
      /**
       * @Route("/lopputyo/muokkaa/{id}", name="aloite_muokkaa" )
       */
-     public function muokkaa(Request $request, $id){
-       // Luo aloite-olion ja palauttaa sen tiedoilla täytettynä.
-       $aloite = $this->getDoctrine()->getRepository(Aloite::class)->find($id);
-       // Luodaan lomake
-       $form = $this->createForm(
-         AloiteFormType::class,
-         $aloite, [
-           'attr'      => ['class' => 'form-signin']
-         ]
-       );
-       // Käsitellään lomakkeelta tulleet tiedot ja talletetaan tietokantaan
-       $form->handleRequest($request);
-       if($form->isSubmitted()){
-         // Talletetaan lomaketiedot muuttujaan
-         $aloite = $form->getData();
-         // Talletetaan tietokantaan
-         $entityManager = $this->getDoctrine()->getManager();
-         $entityManager->flush();
-         // Kutsutaan index-kontrolleria
-         return $this->redirectToRoute('aloite_lista');
-       }
-        return $this->render('lopputyo/muokkaa.html.twig', [
-          'form1'  => $form->createView()
-        ]);
-     }
+      public function muokkaa(Request $request, $id){
+        // Luo aloite-olion ja palauttaa sen tiedoilla täytettynä.
+        $aloite = $this->getDoctrine()->getRepository(Aloite::class)->find($id);
+  
+        // Luodaan lomake
+        $form = $this->createForm(
+          AloiteFormType::class,
+          $aloite, [
+            'attr'      => ['class' => 'form-signin']
+          ]
+        );
+  
+        // Käsitellään lomakkeelta tulleet tiedot ja talletetaan tietokantaan
+        $form->handleRequest($request);
+        if($form->isSubmitted()){
+          // Talletetaan lomaketiedot muuttujaan
+          $aloite = $form->getData();
+  
+          // Talletetaan tietokantaan
+          $entityManager = $this->getDoctrine()->getManager();
+          $entityManager->flush();
+  
+          // Kutsutaan index-kontrolleria
+          return $this->redirectToRoute('aloite_lista');
+        }      
+  
+         return $this->render('lopputyo/muokkaa.html.twig', [
+           'form1'  => $form->createView()
+         ]);
+      }
+
+
+
+
+
      /**
       * @Route("/lopputyo/poista/{id}", name="aloite_poista")
       */
-     public function poista(Request $request, $id){
-       // Luo aloite-olion ja palauttaa sen tiedoilla täytettynä.
-       $aloite = $this->getDoctrine()->getRepository(Aloite::class)->find($id);
-         // Poistetaan aloite tietokannasta
-         $entityManager = $this->getDoctrine()->getManager();
-         $entityManager->remove($aloite);
-         $entityManager->flush();
-
-return $this->redirectToRoute('aloite_lista');
-        //return $this->render('lopputyo/poista.html.twig');
+      public function poista(Request $request, $id){
+  
+        // Luo aloite-olion ja palauttaa sen tiedoilla täytettynä.
+        $aloite = $this->getDoctrine()->getRepository(Aloite::class)->find($id);
+        
+          // Poistetaan aloite tietokannasta
+          $entityManager = $this->getDoctrine()->getManager();
+          $entityManager->remove($aloite);
+          $entityManager->flush();
+  
+          return $this->redirectToRoute('aloite_lista');
+  
+         // return $this->render('aloite/poista.html.twig');
      }
+
+
+
+
 }
 ?>
